@@ -1,132 +1,49 @@
-local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/HanzieUWU/HanzieUWU/main/Lib"))()
+local dis = _G.Discount
+local Balance = _G.Balance
+local NewItemBalance = _G.NewItemBalance
 
-_G.Discount = 0
-_G.Balance = 0
-_G.NewItemBalance = 0
+print(dis)
+print(Balance)
+print(NewItemBalance)
 
 
-function webhook(TITLE, DESC, Eweb)
-    local EUrl
-    if Eweb == "??A" then
-         EUrl = "https://discord.com/api/webhooks/984484252878008343/zOFKiGWDfaQiczjgjOVnSh6oInsoQ-Q-LD6e-b-zNhlogP4iXNNGqxHkGnnEFWafuYPT"
-    else
-        EUrl = Eweb
-        end
-   syn.request({
-       Url = EUrl,
-       Method = "POST",
-       Headers = {
-           ["Content-Type"] = "application/json"
-       },
-       Body = game:GetService("HttpService"):JSONEncode({
-           embeds = {{
-               title =  tostring(TITLE),
-               description = tostring(DESC)
-           }}
-       })
-   })
+local function Loop()
+for i,v in pairs(game:GetService("ReplicatedStorage").Remotes.RequestCatalog:InvokeServer()) do
+local Eprice
+local namee = v.name
+
+print("fetching info : "..v.name)
+       local aa = v.price/v.RAP*100
+        aa = 100 - aa
+if v.price <= Balance and aa >= dis and game.Players.LocalPlayer.Tokens.Value >= v.price and v.RAP > v.price and game.ReplicatedStorage.Remotes.RequestItemInfo:InvokeServer(v.name).status ~= "new" then
+Eprice = v.price
+print(v.name)
+for i,v in pairs(game.ReplicatedStorage.Remotes.RequestItemInfo:InvokeServer(v.name).listings[1]) do
+if i == "id" then
+setclipboard(v)
+
+local args = {
+    [1] = namee,
+    [2] = v
+}
+
+game:GetService("ReplicatedStorage").Remotes.PurchaseItemIisting:InvokeServer(unpack(args))
+
 end
-
-if syn then
-
-syn.request({
-  Url = "http://127.0.0.1:6463/rpc?v=1",
-  Method = "POST",
-  Headers = {
-      ["Content-Type"] = "application/json",
-      ["Origin"] = "https://discord.com"
-  },
-  Body = game:GetService("HttpService"):JSONEncode({
-      cmd = "INVITE_BROWSER",
-      args = {
-          code = "kYUjKnPkYD"
-      },
-      nonce = game:GetService("HttpService"):GenerateGUID(false)
-  }),
-})
 end
-
-
-
-local GUI = Lib:Create{
-    Name = "Hanzie Hub",
-    Size = UDim2.fromOffset(600, 400),
-    Theme = Lib.Themes.Dark,
-    Link = "Join the discord server for key!"
-}
-
---if game.PlaceId == 9737855826 then
-    
-local FourthTab = GUI:Tab{
-	Name = "Supported game",
-	Icon = "rbxassetid://9751355172"
-
-}
-
---[[FourthTab:Toggle{
-	Name = "Buy limiteds",
-	StartingState = false,
-	Description = nil,
-	Callback = function(state)
-	    BuyLimitedItems = state
-	    
-	    end
-}]]
-
-
-
-FourthTab:Slider{
-	Name = "Limited sniper budget",
-	Default = 1,
-	Min = 1,
-	Max = 100000,
-	Callback = function(state)
-	    Balance = state
-	    end
-}
-
-
-FourthTab:Slider{
-	Name = "Limited sniper Discount",
-	Default = 1,
-	Min = 1,
-	Max = 99,
-	Callback = function(state)
-	    _G.Discount = state
-	    end
-}
-
-FourthTab:Slider{
-	Name = "New Item sniper budget",
-	Default = 1,
-	Min = 1,
-	Max = 100000,
-	Callback = function(state)
-	    _G.NewItemBalance = state
-	    end
-}
-
---[[FourthTab:Textbox{
-	Name = "Webhook",
-	Callback = function(text)
-	    web = text
 end
-
-}]]
-FourthTab:Button{
-	Name = "Start (Enter all your settings first!)",
-	Description = nil,
-	Callback = function()
-	    while wait() do
+if v.price <= NewItemBalance and game.Players.LocalPlayer.Tokens.Value >= v.price and game:GetService("ReplicatedStorage").Remotes.RequestItemInfo:InvokeServer(v.name).status == "new" then
+    print(v.name)
+    Eprice = v.price
+    game:GetService("ReplicatedStorage").Remotes.PurchaseItem:InvokeServer(v.name)
+    print("aaaaaaa")
+end
+end
+return
+end
+while true do
+    wait(0.1)
     pcall(function()
-        
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/HanzieUWU/Snipe/main/lua'),true))()
-    end)
-    
+Loop()
+end)
 end
-end
-}
---end
-
-
-
