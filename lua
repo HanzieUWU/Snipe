@@ -27,7 +27,7 @@ local args = {
     [2] = v
 }
 
-game:GetService("ReplicatedStorage").Remotes.PurchaseItemIisting:InvokeServer(unpack(args))
+game:GetService("ReplicatedStorage").Remotes.PurchaseItemListing:InvokeServer(unpack(args))
 
 end
 end
