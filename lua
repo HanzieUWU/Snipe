@@ -1,6 +1,6 @@
-local dis = _G.Discount
-local Balance = _G.Balance
-local NewItemBalance = _G.NewItemBalance
+local dis = getgenv().Discount
+local Balance = getgenv().Balance
+local NewItemBalance = getgenv().NewItemBalance
 
 print(dis)
 print(Balance)
