@@ -33,8 +33,8 @@ local args = {
 game:GetService("ReplicatedStorage").Remotes.PurchaseItemListing:InvokeServer(unpack(args))
 end
 end
-end
 Buying = {}
+end
 end
 if v.price <= NewItemBalance and game.Players.LocalPlayer.Tokens.Value >= v.price and game:GetService("ReplicatedStorage").Remotes.RequestItemInfo:InvokeServer(v.name).status == "new" then
     print(v.name)
