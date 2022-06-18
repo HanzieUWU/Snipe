@@ -6,7 +6,7 @@ print(dis)
 print(Balance)
 print(NewItemBalance)
 
-
+local Buying = {}
 local function Loop()
 for i,v in pairs(game:GetService("ReplicatedStorage").Remotes.RequestCatalog:InvokeServer()) do
 local Eprice
@@ -20,6 +20,9 @@ Eprice = v.price
 print(v.name)
 for i,v in pairs(game.ReplicatedStorage.Remotes.RequestItemInfo:InvokeServer(v.name).listings[1]) do
 if i == "id" then
+    if Buying[1] ~= v then
+Buying[1] = v
+
 setclipboard(v)
 
 local args = {
@@ -28,9 +31,10 @@ local args = {
 }
 
 game:GetService("ReplicatedStorage").Remotes.PurchaseItemListing:InvokeServer(unpack(args))
-
 end
 end
+end
+Buying = {}
 end
 if v.price <= NewItemBalance and game.Players.LocalPlayer.Tokens.Value >= v.price and game:GetService("ReplicatedStorage").Remotes.RequestItemInfo:InvokeServer(v.name).status == "new" then
     print(v.name)
