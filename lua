@@ -20,8 +20,8 @@ Eprice = v.price
 print(v.name)
 for i,v in pairs(game.ReplicatedStorage.Remotes.RequestItemInfo:InvokeServer(v.name).listings[1]) do
 if i == "id" then
-    if Buying[1] ~= v then
-Buying[1] = v
+    if not table.find(Buying, v) then
+table.insert(Buying, 1, v)
 
 setclipboard(v)
 
@@ -33,7 +33,6 @@ local args = {
 game:GetService("ReplicatedStorage").Remotes.PurchaseItemListing:InvokeServer(unpack(args))
 end
 end
-Buying = {}
 end
 end
 if v.price <= NewItemBalance and game.Players.LocalPlayer.Tokens.Value >= v.price and game:GetService("ReplicatedStorage").Remotes.RequestItemInfo:InvokeServer(v.name).status == "new" then
@@ -46,7 +45,7 @@ end
 return
 end
 while true do
-    wait(0.1)
+    wait(0.3)
     pcall(function()
 Loop()
 end)
