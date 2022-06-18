@@ -42,7 +42,7 @@ end
 return
 end
 while true do
-    wait(0.5)
+    wait(0.3)
     pcall(function()
 Loop()
 end)
